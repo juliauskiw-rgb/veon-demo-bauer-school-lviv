@@ -11,6 +11,7 @@ const groups = [
 ];
 const ages = Array.from({ length: MAX - MIN + 1 }, (_, i) => MIN + i);
 const pos = (a: number) => ((a - MIN) / (MAX - MIN)) * 100;
+const B = import.meta.env.BASE_URL;
 ---
 <section id="groups" class="groups section" aria-labelledby="groups-title" data-rec="U-R008,S-R015">
   <div class="container">
@@ -47,8 +48,8 @@ const pos = (a: number) => ((a - MIN) / (MAX - MIN)) * 100;
               {g.photo && (
                 <div class="row__photo">
                   <img
-                    src={`/images/${g.photo.base}-360.webp`}
-                    srcset={`/images/${g.photo.base}-360.webp 360w, /images/${g.photo.base}-720.webp 720w`}
+                    src={`${B}images/${g.photo.base}-360.webp`}
+                    srcset={`${B}images/${g.photo.base}-360.webp 360w, ${B}images/${g.photo.base}-720.webp 720w`}
                     sizes="(min-width: 900px) 220px, 34vw"
                     width="720" height="1078" loading={i === 1 ? "eager" : "lazy"} decoding="async"
                     alt={g.photo.alt} data-rec="P-R004"

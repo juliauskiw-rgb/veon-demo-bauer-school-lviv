@@ -45,8 +45,8 @@ import { nav, phone, email, FUTURE } from "../data/school";
   .footer__logo { display: inline-flex; padding: 4px; margin-left: -4px; border-radius: 6px; }
   .footer__mark {
     display: block; width: 64px; aspect-ratio: 227 / 182; background-color: var(--color-on-night);
-    -webkit-mask: url("/images/bauer-logo.png") center / contain no-repeat;
-    mask: url("/images/bauer-logo.png") center / contain no-repeat;
+    -webkit-mask: var(--logo-url) center / contain no-repeat;
+    mask: var(--logo-url) center / contain no-repeat;
   }
   .footer ul { display: grid; gap: var(--space-1); align-content: start; }
   .footer li > * { min-height: 32px; display: inline-flex; align-items: center; }

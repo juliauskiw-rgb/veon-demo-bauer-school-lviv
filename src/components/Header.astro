@@ -83,8 +83,8 @@ import { phone, email, nav, FUTURE } from "../data/school";
   .logo__mark {
     display: block; width: 46px; aspect-ratio: 227 / 182;
     background-color: var(--color-text);
-    -webkit-mask: url("/images/bauer-logo.png") center / contain no-repeat;
-    mask: url("/images/bauer-logo.png") center / contain no-repeat;
+    -webkit-mask: var(--logo-url) center / contain no-repeat;
+    mask: var(--logo-url) center / contain no-repeat;
     transition: transform var(--dur-fast) var(--ease-out);
   }
   .logo:hover .logo__mark { transform: rotate(-4deg); }
