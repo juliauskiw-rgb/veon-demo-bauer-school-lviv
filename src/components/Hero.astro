@@ -42,11 +42,42 @@ const B = import.meta.env.BASE_URL;
               data-rec="P-R001,P-R004,G-R008"
             />
           </picture>
+          <!-- Client's own training video (from the current home page). The photo stays the LCP and the fallback;
+               the source is attached only after window load, never with reduced motion or Save-Data. -->
+          <video class="figure__video" data-hero-video data-src={`${B}videos/bauer-training.mp4`} poster={`${B}images/start-720.webp`}
+            muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+          <button class="video-toggle" type="button" data-video-toggle hidden aria-pressed="false">
+            <svg class="video-toggle__icon video-toggle__icon--pause" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5v14M16 5v14" /></svg>
+            <svg class="video-toggle__icon video-toggle__icon--play" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l10.5-6.5Z" /></svg>
+            <span class="visually-hidden" data-video-label>Пауза відео</span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  // Attach the client's video only after the page has loaded, so the photo stays the LCP element.
+  const video = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-video-toggle]");
+  const label = document.querySelector<HTMLElement>("[data-video-label]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+  function start() {
+    if (!video || !toggle || reduce || saveData) return;
+    video.src = video.dataset.src || "";
+    video.addEventListener("playing", () => { video.classList.add("is-playing"); toggle.hidden = false; }, { once: true });
+    video.play().catch(() => { /* autoplay refused: the photo stays */ });
+    toggle.addEventListener("click", () => {
+      const paused = !video.paused;
+      if (paused) video.pause(); else video.play().catch(() => {});
+      toggle.setAttribute("aria-pressed", String(paused));
+      if (label) label.textContent = paused ? "Відтворити відео" : "Пауза відео";
+    });
+  }
+  if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+</script>
 
 <style>
   .hero { padding-top: clamp(1.5rem, 0.8rem + 2.4vw, 3rem); padding-bottom: var(--space-2); }
@@ -79,6 +110,25 @@ const B = import.meta.env.BASE_URL;
     background: var(--color-ice-line);
   }
   .figure__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+
+  /* Client video inside the oval: fades in over the photo once it actually plays. */
+  .figure__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; opacity: 0; transition: opacity 600ms var(--ease-out); }
+  .figure__video.is-playing { opacity: 1; }
+  .video-toggle {
+    position: absolute; left: 50%; bottom: 9%; transform: translateX(-50%);
+    width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center;
+    background: color-mix(in srgb, var(--color-night) 72%, transparent); color: var(--color-surface); cursor: pointer;
+    transition: background-color 200ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+  .video-toggle[hidden] { display: none; }
+  .video-toggle:hover { background: var(--color-night); }
+  .video-toggle:active { transform: translateX(-50%) scale(0.94); }
+  .video-toggle:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  .video-toggle__icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .video-toggle__icon--play { fill: currentColor; stroke: none; display: none; }
+  .video-toggle[aria-pressed="true"] .video-toggle__icon--pause { display: none; }
+  .video-toggle[aria-pressed="true"] .video-toggle__icon--play { display: block; }
+  @media (prefers-reduced-motion: reduce) { .figure__video { transition: none; } }
 
   @media (min-width: 600px) {
     .hero__title { max-width: none; }
