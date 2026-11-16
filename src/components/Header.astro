@@ -1,0 +1,169 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { phone, email, nav, FUTURE } from "../data/school";
+---
+<header class="header" data-header>
+  <div class="header__inner container">
+    <a class="logo" href="#top">
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span class="visually-hidden">Bauer School Львів, на початок сторінки</span>
+    </a>
+
+    <nav class="nav" aria-label="Розділи сторінки" data-rec="U-R001">
+      <ul class="nav__list">
+        {nav.map((item) => (
+          <li><a class="nav__link" href={item.href} data-nav-link>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <div class="lang" aria-label="Мова сайту" role="group">
+        <span class="lang__item lang__item--active" aria-current="true">UA</span>
+        <FutureLink note={FUTURE} class="lang__item">PL</FutureLink>
+        <FutureLink note={FUTURE} class="lang__item">EN</FutureLink>
+      </div>
+      <a class="header__phone link nums" href={phone.href} data-rec="U-R001,G-R001,M-R002">{phone.short}</a>
+      <a class="btn btn--primary header__cta" href={phone.href} data-rec="U-R001,U-R003">Пробне безкоштовно</a>
+      <a class="icon-btn header__call" href={phone.href} aria-label="Подзвонити адміністратору" data-rec="U-R001">
+        <Icon name="phone" size={22} />
+      </a>
+      <button class="icon-btn header__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
+        <Icon name="menu" size={24} />
+        <span class="visually-hidden">Відкрити меню</span>
+      </button>
+      <a class="header__menu-fallback link" href="#footer-nav">Меню</a>
+    </div>
+  </div>
+</header>
+
+<div class="menu on-night" id="mobile-menu" data-menu hidden data-rec="U-R006">
+  <div class="menu__top container">
+    <a class="logo logo--night" href="#top" data-menu-close-link>
+      <span class="logo__mark" aria-hidden="true"></span>
+      <span class="visually-hidden">Bauer School Львів, на початок сторінки</span>
+    </a>
+    <button class="icon-btn icon-btn--night" type="button" data-menu-close>
+      <Icon name="close" size={26} />
+      <span class="visually-hidden">Закрити меню</span>
+    </button>
+  </div>
+  <nav class="menu__nav container" aria-label="Розділи сторінки, мобільне меню">
+    <ul>
+      {nav.map((item) => (
+        <li><a class="menu__link" href={item.href} data-menu-close-link>{item.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+  <div class="menu__contact container">
+    <a class="btn btn--primary btn--block-sm" href={phone.href}><Icon name="phone" />Подзвонити</a>
+    <a class="link" href={email.trialHref}>{email.address}</a>
+    <p class="muted">Адміністратор {phone.admin}, {phone.hours}</p>
+    <div class="lang lang--menu" role="group" aria-label="Мова сайту">
+      <span class="lang__item lang__item--active" aria-current="true">UA</span>
+      <FutureLink note={FUTURE} class="lang__item">PL</FutureLink>
+      <FutureLink note={FUTURE} class="lang__item">EN</FutureLink>
+    </div>
+  </div>
+</div>
+
+<style>
+  .header {
+    position: sticky; top: 0; z-index: 40;
+    height: var(--header-h);
+    background: var(--color-bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .header.is-scrolled { border-bottom-color: var(--color-ice-line); }
+  .header__inner { height: 100%; display: flex; align-items: center; gap: var(--space-3); }
+
+  .logo { display: inline-flex; align-items: center; flex: none; border-radius: 6px; padding: 4px; margin-left: -4px; }
+  .logo__mark {
+    display: block; width: 46px; aspect-ratio: 227 / 182;
+    background-color: var(--color-text);
+    -webkit-mask: url("/images/bauer-logo.png") center / contain no-repeat;
+    mask: url("/images/bauer-logo.png") center / contain no-repeat;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .logo:hover .logo__mark { transform: rotate(-4deg); }
+  .logo--night .logo__mark { background-color: var(--color-on-night); }
+
+  .nav { display: none; margin-inline: auto; }
+  .nav__list { display: flex; gap: clamp(1rem, 2vw, 2rem); }
+  .nav__link {
+    position: relative; display: inline-flex; align-items: center; min-height: 44px;
+    font-size: var(--fs-caption); font-weight: 600; text-decoration: none;
+    border-radius: 4px;
+  }
+  .nav__link::after {
+    content: ""; position: absolute; left: 0; bottom: 8px; width: 1.4em; height: 2.5px; border-radius: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 240ms var(--ease-out);
+  }
+  .nav__link:hover::after, .nav__link:focus-visible::after, .nav__link[aria-current="true"]::after { transform: scaleX(1); }
+
+  .header__actions { display: flex; align-items: center; gap: var(--space-2); margin-left: auto; }
+
+  .lang { display: none; align-items: center; gap: .65rem; font-size: var(--fs-caption); }
+  .lang__item--active { font-weight: 600; }
+  .lang--menu { display: flex; margin-top: var(--space-2); }
+
+  .header__phone { display: none; font-weight: 600; font-size: var(--fs-caption); white-space: nowrap; }
+  .header__cta { display: none; min-height: 44px; padding: .55rem 1.2rem; font-size: var(--fs-caption); }
+
+  .icon-btn {
+    display: inline-grid; place-items: center; width: 44px; height: 44px;
+    border-radius: var(--radius-pill); border: 0; background: transparent; color: var(--color-text);
+    cursor: pointer; text-decoration: none;
+    transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .icon-btn:hover { background: var(--color-ice-line); }
+  .icon-btn:active { transform: scale(.94); }
+  .icon-btn--night { color: var(--color-on-night); }
+  .icon-btn--night:hover { background: var(--color-night-raised); }
+
+  .header__burger { display: none; }
+  :global(.js) .header__burger { display: inline-grid; }
+  :global(.js) .header__menu-fallback { display: none; }
+  .header__menu-fallback { font-size: var(--fs-caption); font-weight: 600; }
+
+  @media (min-width: 600px) {
+    .header__phone { display: inline-block; }
+    .header__call { display: none; }
+  }
+  @media (min-width: 1100px) {
+    .nav { display: block; }
+    .header__actions { margin-left: 0; }
+    .header__cta { display: inline-flex; }
+    :global(.js) .header__burger, .header__menu-fallback, :global(.js) .header__menu-fallback { display: none; }
+    .logo__mark { width: 54px; }
+  }
+  @media (min-width: 1360px) {
+    .header .lang { display: flex; }
+  }
+
+  /* Mobile menu: full screen «вечірній лід» */
+  .menu {
+    position: fixed; inset: 0; z-index: 60;
+    display: flex; flex-direction: column; gap: var(--space-4);
+    overflow-y: auto; padding-bottom: var(--space-5);
+  }
+  .menu[hidden] { display: none; }
+  .menu.is-open { animation: menu-in 240ms var(--ease-out); }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  .menu__top { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; }
+  .menu__nav ul { display: grid; }
+  .menu__link {
+    display: flex; align-items: center; min-height: 60px;
+    font: 600 2rem/1.1 var(--font-display); text-decoration: none;
+    border-bottom: 1px solid var(--color-night-raised);
+    border-radius: 4px;
+    transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .menu__link:hover { color: var(--color-accent); transform: translateX(4px); }
+  .menu__contact { display: grid; gap: var(--space-2); justify-items: start; }
+  @media (prefers-reduced-motion: reduce) { .menu.is-open { animation: none; } .menu__link:hover, .logo:hover .logo__mark { transform: none; } }
+</style>

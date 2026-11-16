@@ -1,0 +1,24 @@
+---
+import Icon from "./Icon.astro";
+import { phone } from "../data/school";
+---
+<div class="callbar" data-callbar data-rec="U-R003,U-R006,M-R002">
+  <a class="btn btn--primary callbar__btn" href={phone.href}><Icon name="phone" />Подзвонити</a>
+  <a class="btn btn--ghost callbar__btn callbar__write" href="#contacts">Написати</a>
+</div>
+
+<style>
+  .callbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 35;
+    display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--space-1);
+    padding: var(--space-1) var(--space) calc(var(--space-1) + env(safe-area-inset-bottom));
+    background: var(--color-bg);
+    box-shadow: 0 -6px 24px var(--color-panel-shadow);
+    transition: transform 280ms var(--ease-out), visibility 0s;
+  }
+  .callbar__btn { min-height: 52px; padding-inline: var(--space-2); }
+  .callbar__write { background: var(--color-surface); }
+  :global([data-js-callbar]) .callbar:not(.is-shown) { transform: translateY(110%); visibility: hidden; transition: transform 280ms var(--ease-out), visibility 0s linear 280ms; }
+  :global(.menu-open) .callbar { transform: translateY(110%); visibility: hidden; }
+  @media (min-width: 900px) { .callbar { display: none; } }
+</style>

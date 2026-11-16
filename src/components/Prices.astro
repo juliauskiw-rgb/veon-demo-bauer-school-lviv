@@ -1,0 +1,102 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { phone, FUTURE } from "../data/school";
+// Facts: products_services[0..3] (prices, hours, contents) and [8] (conditions). Tariff and group link is not stated (UX 9.3).
+const MAXH = 72;
+const plans = [
+  { name: "Пробне тренування", price: "0", unit: "грн", hours: 2, hoursText: "2 години, один раз", parts: "ЗФП і лід", trial: true },
+  { name: "Юний Фігурист", price: "7 650", unit: "грн/міс", hours: 16, hoursText: "16 годин на місяць", parts: "ЗФП, лід, гімнастика", trial: false },
+  { name: "Аматори", price: "13 050", unit: "грн/міс", hours: 44, hoursText: "44 години на місяць", parts: "ЗФП, лід, СФП, гімнастика, балет", trial: false },
+  { name: "Спорт", price: "16 850", unit: "грн/міс", hours: 72, hoursText: "72 години на місяць", parts: "ЗФП, лід, СФП, гімнастика, балет", trial: false },
+];
+---
+<section id="prices" class="prices section" aria-labelledby="prices-title" data-rec="U-R004">
+  <div class="container">
+    <div class="prices__head">
+      <h2 id="prices-title">Абонементи на місяць</h2>
+      <p class="muted prices__lead">Довжина золотої лінії показує, скільки годин тренувань на місяць входить в абонемент.</p>
+    </div>
+
+    <ul class="plans" data-reveal="grow">
+      {plans.map((p, i) => (
+        <li class:list={["plan", { "plan--trial": p.trial }]} style={`--h:${p.hours / MAXH}; --i:${i}`}>
+          <h3 class="plan__name">{p.name}</h3>
+          <p class="plan__price nums"><span class="plan__sum">{p.price}</span> <span class="plan__unit">{p.unit}</span></p>
+          <div class="plan__hours">
+            <span class="plan__line" aria-hidden="true"><span></span></span>
+            <span class="plan__htext nums">{p.hoursText}</span>
+          </div>
+          <p class="plan__parts muted">{p.parts}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="prices__foot">
+      <ul class="terms">
+        <li><strong>Сімейна знижка 10 %</strong> на кожен абонемент, якщо займаються від 2 членів родини.</li>
+        <li><strong>Заморозка</strong> до 2 тижнів, двічі на рік.</li>
+        <li><strong>Повернення</strong> протягом 3 днів, якщо не було занять.</li>
+      </ul>
+      <div class="prices__cta">
+        <a class="btn btn--primary btn--block-sm" href={phone.href} data-rec="U-R003"><Icon name="phone" /><span>Почати з <span class="cta-word">безкоштовного </span>пробного</span></a>
+        <FutureLink note={FUTURE}>Усі умови</FutureLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .prices { background: var(--color-surface); }
+  .prices__head { display: grid; gap: var(--space-2); }
+  .prices__lead { font-size: var(--fs-lead); max-width: 40ch; }
+  .plans { margin-top: var(--space-4); display: grid; }
+  .plan {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-1) var(--space-2);
+    grid-template-areas: "name price" "hours hours" "parts parts";
+    padding-block: var(--space-3); border-top: 1px solid var(--color-ice-line);
+  }
+  .plan:last-child { border-bottom: 1px solid var(--color-ice-line); }
+  .plan__name { grid-area: name; font-size: var(--fs-h3); align-self: baseline; }
+  .plan__price { grid-area: price; text-align: right; align-self: baseline; white-space: nowrap; }
+  .plan__sum { font-weight: 600; font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem); line-height: 1; }
+  .plan__unit { font-size: var(--fs-caption); color: var(--color-text-muted); }
+  .plan__hours { grid-area: hours; display: grid; gap: var(--space-1); }
+  .plan__line { display: block; height: 4px; }
+  .plan__line span {
+    display: block; height: 100%; width: max(calc(var(--h) * 100%), 8px);
+    background: var(--color-accent); border-radius: 4px;
+    transform-origin: left center;
+    transition: transform 450ms var(--ease-out) calc(var(--i) * 90ms);
+  }
+  :global(.js) .plans:not(.is-visible) .plan__line span { transform: scaleX(0); }
+  .plan__htext { font-weight: 600; font-size: var(--fs-caption); }
+  .plan__parts { grid-area: parts; font-size: var(--fs-caption); }
+  .plan--trial .plan__name { font-size: var(--fs-lead); }
+
+  .prices__foot { margin-top: var(--space-4); display: grid; gap: var(--space-4); }
+  .terms { display: grid; gap: var(--space-2); }
+  .terms li { padding-left: var(--space-3); position: relative; max-width: 46ch; }
+  .terms li::before { content: ""; position: absolute; left: 0; top: .78em; width: 14px; height: 2.5px; border-radius: 2px; background: var(--color-accent); }
+  .prices__cta .btn { white-space: nowrap; }
+  @media (max-width: 419px) { .cta-word { display: none; } }
+  .prices__cta { display: grid; gap: var(--space-2); justify-items: start; }
+  .prices__cta :global(.future-link) { min-height: 44px; }
+
+  @media (min-width: 900px) {
+    .prices__head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
+    .plan {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 4.2fr) minmax(0, 2.4fr) minmax(0, 2.8fr);
+      grid-template-areas: "name hours parts price"; align-items: center; gap: var(--space-4);
+      padding-block: var(--space-4);
+    }
+    .plan__line span { transition-duration: 600ms; }
+    .plan__parts { font-size: var(--fs-body); }
+    .plan__name, .plan__price { align-self: center; }
+    .prices__foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; margin-top: var(--space-5); }
+    .prices__cta { justify-items: end; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .plans:not(.is-visible) .plan__line span { transform: none; }
+  }
+</style>

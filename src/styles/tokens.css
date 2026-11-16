@@ -1,0 +1,65 @@
+/* Hallmark · theme: custom · idea: "золотий слід ковзана малює фігури школи на льоду й замикається на телефоні" · vibe: "світлий лід, індиго, золотий слід, школа" · paper: #EEF3F8 · accent: #E8B84D · faces: Piazzolla / Onest · hero: H1 на всю ширину, під ним вісімка — овальне фото START і петля з пробним та телефоном · nav: світла шапка, 5 якорів, телефон і кнопка · surface: absolute · posture: light/roman-serif/chromatic-gold */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery (only three group photos and four portraits from the client), answered with oval loop windows and a typographic age scale instead of more photos */
+/* Hallmark · waive 7b · --color-surface #FFFFFF · the approved palette in design/concept.md (veon-concept colors) names pure white for price rows and panels; it sits on the cold ice #EEF3F8, never as page paper */
+/* Hallmark · waive 23 · .trial__free-word «безкоштовно» in gold #E8B84D on night #241F57, 8.09:1 · design/concept.md (trial): the word is the main signal of the block, the only large gold type on the page, never on light paper */
+/* Client design tokens from design/concept.md (veon-concept: colors, fonts). One token system for the whole demo. */
+:root {
+  /* Colour roles (concept.md, «Палитра») */
+  --color-bg: #EEF3F8;
+  --color-surface: #FFFFFF;
+  --color-ice-line: #DCE5EF;
+  --color-text: #342E73;
+  --color-text-muted: #5B5784;
+  --color-night: #241F57;
+  --color-night-raised: #2E2868;
+  --color-on-night: #EEF3F8;
+  --color-on-night-muted: #B9B4E0;
+  --color-accent: #E8B84D;
+  --color-accent-hover: #F2C76A;
+  --color-accent-ink: #342E73;
+  --color-border: #7D8AA0;
+  --color-panel-shadow: rgba(36, 31, 87, 0.18);
+
+  /* Type */
+  --font-display: "Piazzolla Variable", "Piazzolla Fallback", Georgia, serif;
+  --font-body: "Onest Variable", "Onest Fallback", system-ui, sans-serif;
+  --fs-caption: 0.9375rem;                                  /* 15 */
+  --fs-body: 1.0625rem;                                     /* 17 */
+  --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);      /* 18 → 21 */
+  --fs-h3: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);          /* 22 → 28 */
+  --fs-h2: clamp(2rem, 1.45rem + 2vw, 2.75rem);             /* 32 → 44 */
+  --fs-h1: clamp(2.375rem, 6.2vw, 6rem);                    /* 38 → 96 */
+  --fs-number: clamp(1.5rem, 7.4vw, 4rem);                 /* phone in contacts, 24 → 64 */
+  --lh-h1: 1.02;
+  --lh-h2: 1.1;
+  --lh-body: 1.55;
+
+  /* Space: 4/8 rhythm (8, 16, 24, 40, 64, 96, 144) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+  --space-7: 9rem;
+  --section-pad: clamp(4rem, 2.6rem + 5.5vw, 9rem);         /* 64 → 144 */
+  --space: clamp(1.25rem, 0.5rem + 3.6vw, 4rem);            /* page gutter 20 / 40 / 64 */
+  --gutter: 1.5rem;
+  --container: 1240px;
+  --header-h: 56px;
+
+  /* Shape */
+  --radius: 24px;
+  --radius-pill: 999px;
+  --trail-w: 2.5px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-fast: 180ms;
+  --dur-draw: 900ms;
+}
+
+@media (min-width: 900px) {
+  :root { --header-h: 72px; }
+}

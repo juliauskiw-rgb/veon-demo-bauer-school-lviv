@@ -1,0 +1,72 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Groups from "../components/Groups.astro";
+import Trial from "../components/Trial.astro";
+import Coaches from "../components/Coaches.astro";
+import Prices from "../components/Prices.astro";
+import Services from "../components/Services.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import CallBar from "../components/CallBar.astro";
+import { phone, email, address, socials } from "../data/school";
+
+const title = "Школа фігурного катання у Львові для дітей 3–18 | Bauer";
+const description = "Фігурне катання для дітей від 3 до 18 років на ковзанці King Cross, Сокільники. Групи START, ADVANCED, SPORT. Пробне тренування 2 години — безкоштовно.";
+
+// Schema.org (SEO-R004): only facts from veon/client.json. No URL/logo: the demo has no public address yet.
+const offer = (name: string, price: string, description: string) => ({
+  "@type": "Offer", name, price, priceCurrency: "UAH", description,
+});
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SportsActivityLocation",
+      "@id": "#school",
+      name: "Bauer School Львів",
+      description: "Школа фігурного катання для дітей 3–18 років: групи START (3–7), ADVANCED (6–12), SPORT (6–18).",
+      telephone: "+380676738530",
+      email: email.address,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: `${address.place}, ${address.street}`,
+        addressLocality: "Сокільники",
+        addressRegion: "Львівська область",
+        addressCountry: "UA",
+      },
+      geo: { "@type": "GeoCoordinates", latitude: address.lat, longitude: address.lng },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+380676738530",
+        email: email.address,
+        contactType: "адміністратор",
+        name: phone.admin,
+        hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:00", closes: "18:00" },
+      },
+      sameAs: socials.map((s) => s.href),
+      makesOffer: [
+        offer("Пробне тренування", "0", "2 години: ЗФП і лід"),
+        offer("Абонемент «Юний Фігурист»", "7650", "16 годин тренувань на місяць: ЗФП, лід, гімнастика"),
+        offer("Абонемент «Аматори»", "13050", "44 години на місяць: ЗФП, лід, СФП, гімнастика, балет"),
+        offer("Абонемент «Спорт»", "16850", "72 години на місяць: ЗФП, лід, СФП, гімнастика, балет"),
+      ],
+    },
+  ],
+};
+---
+<Base lang="uk" title={title} description={description} descriptionRec="SEO-R002">
+  <script slot="head" type="application/ld+json" data-rec="SEO-R004" set:html={JSON.stringify(jsonLd)} />
+  <Header slot="header" />
+  <Hero />
+  <Groups />
+  <Trial />
+  <Coaches />
+  <Prices />
+  <Services />
+  <Contacts />
+  <Footer slot="footer" />
+  <CallBar slot="after" />
+  <script src="../scripts/site.ts"></script>
+</Base>

@@ -1,0 +1,36 @@
+---
+import "../styles/tokens.css";
+import "../styles/fonts.css";
+import "../styles/global.css";
+import piazzollaCyr from "../../node_modules/@fontsource-variable/piazzolla/files/piazzolla-cyrillic-wght-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; descriptionRec?: string; }
+const { lang, title, description, canonical, descriptionRec } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>(function(r){r.classList.add("js","draw");setTimeout(function(){r.classList.remove("draw")},1600)})(document.documentElement)</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} data-rec={descriptionRec} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="preload" href={piazzollaCyr} as="font" type="font/woff2" crossorigin />
+    <style is:global>html, body { overflow-x: clip; }</style>
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main" data-rec="P-R003"><slot /></main>
+    <slot name="footer" />
+    <slot name="after" />
+    <script src="../scripts/reveal.ts"></script>
+  </body>
+</html>

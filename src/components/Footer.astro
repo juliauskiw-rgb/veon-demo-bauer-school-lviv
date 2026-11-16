@@ -1,0 +1,64 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { nav, phone, email, FUTURE } from "../data/school";
+---
+<footer class="footer on-night">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__logo" href="#top">
+        <span class="footer__mark" aria-hidden="true"></span>
+        <span class="visually-hidden">Bauer School Львів, на початок сторінки</span>
+      </a>
+      <p class="muted">Школа фігурного катання для дітей <span class="nowrap">3–18 років</span>, Львів.</p>
+      <p><a class="link nums" href={phone.href}>{phone.display}</a></p>
+      <p><a class="link" href={email.href}>{email.address}</a></p>
+    </div>
+
+    <nav class="footer__nav" id="footer-nav" aria-label="Розділи сторінки, футер">
+      <ul>
+        {nav.map((item) => <li><a class="link" href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <ul class="footer__future">
+      <li><FutureLink note={FUTURE}>Медіа</FutureLink></li>
+      <li><FutureLink note={FUTURE}>Філія Warszawa</FutureLink></li>
+      <li class="footer__lang"><span aria-current="true">UA</span><FutureLink note={FUTURE}>PL</FutureLink><FutureLink note={FUTURE}>EN</FutureLink></li>
+    </ul>
+
+    <ul class="footer__legal">
+      <li><FutureLink note={FUTURE}>Публічна оферта</FutureLink></li>
+      <li><FutureLink note={FUTURE}>Політика конфіденційності</FutureLink></li>
+      <li><FutureLink note={FUTURE}>Політика cookies</FutureLink></li>
+    </ul>
+  </div>
+  <div class="container footer__bottom">
+    <p class="muted" data-rec="U-R007">Для учнів: розклад і сповіщення — у застосунку TeamCloud.</p>
+    <p class="muted">© Bauer School Львів</p>
+  </div>
+</footer>
+
+<style>
+  .footer { padding-block: var(--space-5) var(--space-4); border-top: 1px solid var(--color-night-raised); font-size: var(--fs-caption); }
+  .footer__grid { display: grid; gap: var(--space-4); }
+  .footer__brand { display: grid; gap: var(--space-1); justify-items: start; }
+  .footer__logo { display: inline-flex; padding: 4px; margin-left: -4px; border-radius: 6px; }
+  .footer__mark {
+    display: block; width: 64px; aspect-ratio: 227 / 182; background-color: var(--color-on-night);
+    -webkit-mask: url("/images/bauer-logo.png") center / contain no-repeat;
+    mask: url("/images/bauer-logo.png") center / contain no-repeat;
+  }
+  .footer ul { display: grid; gap: var(--space-1); align-content: start; }
+  .footer li > * { min-height: 32px; display: inline-flex; align-items: center; }
+  .footer__lang { display: flex; gap: var(--space-2); align-items: center; }
+  .footer__bottom { margin-top: var(--space-5); padding-top: var(--space-3); border-top: 1px solid var(--color-night-raised); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }
+
+  @media (min-width: 700px) {
+    .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1000px) {
+    .footer__grid { grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 2.6fr)); }
+  }
+  /* Room for the sticky call panel on phones */
+  @media (max-width: 899px) { .footer { padding-bottom: calc(var(--space-4) + 84px); } }
+</style>

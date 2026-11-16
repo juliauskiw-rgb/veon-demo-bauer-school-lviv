@@ -1,0 +1,88 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { FUTURE } from "../data/school";
+// Facts: B-F003 (four coaches, discipline, experience as stated on the school site, titles), B-F002 (federation, 2019).
+const team = [
+  { name: "Соломія Стецьків", base: "stetskiv", role: "Балет", years: "6+ років досвіду", title: "Майстер спорту з художньої гімнастики" },
+  { name: "Олена Шевченко", base: "shevchenko", role: "Хореографія", years: "26+ років досвіду", title: null },
+  { name: "Марія Садчікова", base: "sadchikova", role: "Хореографія", years: "7+ років досвіду", title: "Кандидат у майстри спорту з художньої гімнастики" },
+];
+---
+<section id="coaches" class="coaches section" aria-labelledby="coaches-title">
+  <div class="container">
+    <h2 id="coaches-title" class="coaches__title">Хто веде на лід</h2>
+
+    <div class="coaches__grid">
+      <div class="lead">
+        <div class="lead__frame" data-reveal="grow">
+          <svg class="lead__loop" viewBox="0 0 440 440" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M 60 436 C 10 400 2 300 4 210 C 6 90 60 8 210 4 C 360 0 436 70 436 200 C 436 330 380 432 240 436 C 170 438 110 430 70 410" />
+          </svg>
+          <div class="lead__photo">
+            <img src="/images/manashchenko-400.webp" srcset="/images/manashchenko-320.webp 320w, /images/manashchenko-400.webp 400w"
+              sizes="(min-width: 900px) 400px, 80vw" width="400" height="400" loading="eager" decoding="async"
+              alt="Максим Манащенко, головний тренер Bauer" data-rec="P-R004" />
+          </div>
+        </div>
+        <div class="lead__info">
+          <h3 class="lead__name">Максим Манащенко</h3>
+          <p class="lead__role">Головний тренер, фігурне катання</p>
+          <p class="muted">7+ років досвіду</p>
+          <p class="lead__club">Bauer зареєстровано у Федерації фігурного катання України, клуб відкрито у 2019 році.</p>
+        </div>
+      </div>
+
+      <div class="coaches__text">
+        <p class="coaches__sub">Балет і хореографія ведуть окремі тренери:</p>
+        <ul class="index">
+          {team.map((c) => (
+            <li class="index__item">
+              <img class="index__photo" src={`/images/${c.base}-96.webp`} srcset={`/images/${c.base}-96.webp 1x, /images/${c.base}-192.webp 2x`}
+                width="96" height="96" loading="lazy" decoding="async" alt={`${c.name}, тренер Bauer`} data-rec="P-R004" />
+              <div class="index__info">
+                <h3 class="index__name">{c.name}</h3>
+                <p class="index__meta"><span>{c.role}</span><span class="muted">{c.years}</span></p>
+                {c.title && <p class="index__title">{c.title}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <FutureLink note={FUTURE} class="coaches__more">Усі тренери</FutureLink>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .coaches__grid { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+  .lead { display: grid; gap: var(--space-4); align-content: start; }
+  .lead__frame { position: relative; width: min(100% - 2 * var(--space-2), 400px); margin: var(--space-2); }
+  .lead__frame::before { content: ""; position: absolute; inset: var(--space-2) calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) var(--space-2); border-radius: var(--radius); background: var(--color-ice-line); }
+  .lead__photo { position: relative; aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--color-ice-line); }
+  .lead__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 40%; }
+  .lead__loop { position: absolute; inset: calc(-1 * var(--space-3)); width: calc(100% + 2 * var(--space-3)); height: calc(100% + 2 * var(--space-3)); overflow: visible; pointer-events: none; z-index: 1; transition: clip-path var(--dur-draw) var(--ease-out) 200ms; }
+  .lead__loop path { fill: none; stroke: var(--color-accent); stroke-width: var(--trail-w); stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  :global(.js) .lead__frame:not(.is-visible) .lead__loop { clip-path: inset(0 100% 0 0); }
+  @media (prefers-reduced-motion: reduce) { :global(.js) .lead__frame:not(.is-visible) .lead__loop { clip-path: none; } }
+  .lead__info { display: grid; gap: 4px; }
+  .lead__name { font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); }
+  .lead__role { font-size: var(--fs-lead); font-weight: 600; }
+  .lead__club { margin-top: var(--space-2); max-width: 38ch; }
+  .coaches__sub { font-weight: 600; }
+  .index { margin-top: var(--space-2); display: grid; }
+  .index__item { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-2); align-items: center; padding-block: var(--space-2); border-top: 1px solid var(--color-ice-line); }
+  .index__item:last-child { border-bottom: 1px solid var(--color-ice-line); }
+  .index__photo { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; background: var(--color-ice-line); }
+  .index__name { font-size: var(--fs-h3); }
+  .index__meta { display: flex; flex-wrap: wrap; gap: 0 var(--space-2); }
+  .index__title { font-size: var(--fs-caption); }
+  .coaches__more { margin-top: var(--space-3); min-height: 44px; }
+
+  @media (min-width: 900px) {
+    .coaches__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-5); align-items: start; margin-top: var(--space-5); }
+    .lead__frame { width: min(100% - 2 * var(--space-3), 420px); margin: var(--space-3); }
+    .coaches__text { padding-top: var(--space-3); }
+    .index__item { grid-template-columns: 96px minmax(0, 1fr); gap: var(--space-3); }
+    .index__photo { width: 96px; height: 96px; }
+  }
+</style>

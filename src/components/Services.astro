@@ -1,0 +1,45 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { phone, FUTURE } from "../data/school";
+// Facts: business_lines[1], products_services[4..7]. Prices are not published (B-I006).
+const items = [
+  { name: "Постановка програм", text: "Образ, музика, костюм." },
+  { name: "Медичний супровід", text: "Масажист-реабілітолог Тарас Леськів." },
+  { name: "Спортивні збори", text: "Під час шкільних канікул: лід, хореографія, відпочинок на морі." },
+  { name: "Тренування з інвентарем", text: "Ротатор, парашути, лонжа, скакалка." },
+];
+---
+<section id="services" class="services section" aria-labelledby="services-title">
+  <div class="container">
+    <h2 id="services-title">Окремо від абонемента</h2>
+    <dl class="strip">
+      {items.map((s) => (
+        <div class="strip__item">
+          <dt class="strip__name">{s.name}</dt>
+          <dd class="strip__text muted">{s.text}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="services__foot">
+      <span>Вартість — у адміністратора: <a class="link nums" href={phone.href}>{phone.display}</a></span>
+      <FutureLink note={FUTURE}>Детальніше про послуги</FutureLink>
+    </p>
+  </div>
+</section>
+
+<style>
+  .services { padding-block: clamp(3.5rem, 2.5rem + 4vw, 6rem); }
+  .strip { margin-top: var(--space-4); display: grid; }
+  .strip__item { display: grid; gap: 4px; padding-block: var(--space-2); border-top: 1px solid var(--color-ice-line); }
+  .strip__name { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem); line-height: 1.25; }
+  .strip__text { font-size: var(--fs-caption); }
+  .services__foot { margin-top: var(--space-3); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); align-items: center; }
+  .services__foot > * { min-height: 44px; display: inline-flex; align-items: center; flex-wrap: wrap; gap: 0 .4em; }
+  .services__foot .link { font-weight: 600; }
+
+  @media (min-width: 900px) {
+    .strip { grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--color-ice-line); border-bottom: 1px solid var(--color-ice-line); }
+    .strip__item { border-top: 0; padding: var(--space-3) var(--space-3) var(--space-3) 0; }
+    .strip__item + .strip__item { border-left: 1px solid var(--color-ice-line); padding-left: var(--space-3); }
+  }
+</style>

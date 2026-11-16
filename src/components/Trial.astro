@@ -1,0 +1,72 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { phone, email, socials, FUTURE } from "../data/school";
+// Facts: products_services[0] (2 hours, ЗФП + ice, free), B-F008 (rental skates, group after the trial), contacts.hours (24 h e-mail reply).
+const qa = [
+  { q: "Не рано з трьох років?", a: "Група START приймає дітей саме з 3 років." },
+  { q: "Немає ковзанів?", a: "Перші заняття можна в прокатних ковзанах." },
+  { q: "Що буде на тренуванні?", a: "Дві години: загальна фізична підготовка (ЗФП) і лід." },
+  { q: "Яку групу обрати?", a: "Групу підбере тренер після пробного заняття." },
+  { q: "Коли відповідять?", a: `Телефоном — ${phone.hours}. На e-mail адміністратор відповідає протягом 24 годин. Час пробного узгоджує адміністратор.` },
+];
+const instagram = socials.find((s) => s.name === "Instagram")!;
+---
+<section id="trial" class="trial section on-night" aria-labelledby="trial-title" data-rec="U-R010,U-R003,S-R014,G-R003">
+  <div class="container trial__grid">
+    <div class="trial__offer">
+      <h2 id="trial-title">Перші дві години на льоду</h2>
+      <p class="trial__free">
+        <span class="trial__free-pre">Пробне тренування —</span>
+        <span class="trial__free-word">безкоштовно</span>
+        <svg class="trail-under" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M 2 22 C 90 34 220 36 330 20 C 370 14 392 8 398 2" /></svg>
+      </p>
+      <div class="trial__actions">
+        <a class="btn btn--primary btn--block-sm" href={phone.href} data-rec="U-R003"><Icon name="phone" />Записатися на пробне</a>
+        <p class="trial__alt">
+          <a class="link" href={email.trialHref}>Написати на e-mail</a>
+          <a class="link" href={instagram.href} rel="noopener" target="_blank">Написати в Instagram</a>
+          <FutureLink note={FUTURE}>Онлайн-запис</FutureLink>
+        </p>
+      </div>
+    </div>
+
+    <dl class="qa">
+      {qa.map((item) => (
+        <div class="qa__item">
+          <dt class="qa__q">{item.q}</dt>
+          <dd class="qa__a">{item.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .trial__grid { display: grid; gap: var(--space-5); }
+  .trial__offer { display: grid; gap: var(--space-4); align-content: start; }
+  .trial__free { position: relative; display: grid; gap: 4px; justify-items: start; }
+  .trial__free-pre { font-size: var(--fs-lead); color: var(--color-on-night-muted); }
+  .trial__free-word {
+    font-family: var(--font-display); font-weight: 600; line-height: 1;
+    font-size: clamp(2.5rem, 5.2vw, 4.5rem); color: var(--color-accent);
+    overflow-wrap: normal; hyphens: none; min-width: 0; max-width: 100%;
+  }
+  .trail-under { width: min(100%, 26rem); height: 22px; overflow: visible; }
+  .trail-under path { fill: none; stroke: var(--color-accent); stroke-width: var(--trail-w); stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .trial__actions { display: grid; gap: var(--space-3); justify-items: start; }
+  .trial__alt { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); align-items: center; }
+  .trial__alt > * { min-height: 44px; display: inline-flex; align-items: center; }
+
+  .qa { display: grid; }
+  .qa__item { display: grid; gap: var(--space-1); padding-block: var(--space-3); border-top: 1px solid var(--color-night-raised); }
+  .qa__item:last-child { border-bottom: 1px solid var(--color-night-raised); }
+  .qa__q { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; }
+  .qa__a { color: var(--color-on-night-muted); max-width: 40ch; }
+
+  @media (min-width: 900px) {
+    .trial__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-6); }
+    .trial__offer { position: sticky; top: calc(var(--header-h) + var(--space-4)); }
+    .qa__item { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-4); align-items: baseline; }
+  }
+</style>
